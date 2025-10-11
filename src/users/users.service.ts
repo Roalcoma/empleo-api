@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import { Usuarios } from './entities/Usuarios';
 
 @Injectable()
-export class UsuariosService {
+export class UsersService {
   // 1. Inyectamos el "Repository" de Usuario.
   // Piensa en esto como la herramienta específica para hablar
   // con la tabla "usuarios" y nada más.
@@ -20,5 +20,9 @@ export class UsuariosService {
     // 3. Usamos la herramienta para encontrar todos los registros.
     // "await" le dice al código que espere aquí hasta que la base de datos responda.
     return this.usuarioRepository.find();
+  }
+
+  async findOne(id: string): Promise<Usuarios | null> {
+    return this.usuarioRepository.findOneBy({ id });
   }
 }
