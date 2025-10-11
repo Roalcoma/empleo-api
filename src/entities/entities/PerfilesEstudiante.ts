@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Aplicaciones } from "./Aplicaciones";
-import { Usuarios } from "./Usuarios";
+import { Usuarios } from "../../users/entities/Usuarios";
 
 @Index("perfiles_estudiante_pkey", ["idPerfilEstudiante"], { unique: true })
 @Index("perfiles_estudiante_id_usuario_key", ["idUsuario"], { unique: true })
@@ -57,7 +57,7 @@ export class PerfilesEstudiante {
   )
   aplicaciones: Aplicaciones[];
 
-  @OneToOne(() => Usuarios, (usuarios) => usuarios.perfilesEstudiante, {
+  @OneToOne(() => Usuarios, (usuarios) => usuarios.perfilEstudiante, {
     onDelete: "CASCADE",
   })
   @JoinColumn([{ name: "id_usuario", referencedColumnName: "idUsuario" }])

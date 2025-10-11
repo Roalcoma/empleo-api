@@ -1,32 +1,41 @@
 // src/app.module.ts
+
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config'; // Importa ConfigModule y ConfigService
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UsersModule } from './users/users.module';
+import { PerfilesModule } from './perfiles/perfiles.module';
+import { AplicacionesModule } from './aplicaciones/aplicaciones.module';
+import { OfertasLaboralesModule } from './ofertas-laborales/ofertas-laborales.module';
+
+// ¡CORRECCIÓN! Importa el archivo correcto
+import databaseConfig from './database/database.config'; 
 
 @Module({
   imports: [
-    // 1. Carga el módulo de configuración de forma global
     ConfigModule.forRoot({
-      isGlobal: true, // Hace que .env esté disponible en toda la aplicación
+      isGlobal: true,
+      load: [databaseConfig], // Carga la configuración con la etiqueta 'database'
     }),
     
-    // 2. Configura TypeORM de forma asíncrona
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule], // Importa ConfigModule para poder usar ConfigService
-      inject: [ConfigService], // Inyecta el servicio de configuración
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'), // El '+' convierte el string a número
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_DATABASE'),
-        entities: [__dirname + '/**/*.entity{.ts,.js}'],
-        //synchronize: true, // Recuerda: solo para desarrollo
-      }),
+      // imports: [ConfigModule], // ¡ELIMINA ESTA LÍNEA! No es necesaria.
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => {
+        const databaseConfig = configService.get('database');
+        if (!databaseConfig) {
+          throw new Error('Database configuration is not defined');
+        }
+        return databaseConfig; // Ahora sí encontrará la configuración
+      },
     }),
+
+    UsersModule,
+    PerfilesModule,
+    AplicacionesModule,
+    OfertasLaboralesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
