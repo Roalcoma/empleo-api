@@ -1,19 +1,22 @@
-import { Column, Entity, Index, JoinColumn, OneToOne } from "typeorm";
-import { Usuarios } from "../../users/entities/Usuarios";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
+import { Usuarios } from "./Usuarios";
 
-@Index("perfiles_universidad_pkey", ["id"], { unique: true })
-@Index("perfiles_universidad_usuario_id_key", ["usuarioId"], { unique: true })
+@Index("perfiles_universidad_pkey", ["idPerfilUniversidad"], { unique: true })
+@Index("perfiles_universidad_id_usuario_key", ["idUsuario"], { unique: true })
 @Entity("perfiles_universidad", { schema: "public" })
 export class PerfilesUniversidad {
-  @Column("uuid", {
-    primary: true,
-    name: "id",
-    default: () => "uuid_generate_v4()",
-  })
-  id: string;
+  @PrimaryGeneratedColumn({ type: "integer", name: "id_perfil_universidad" })
+  idPerfilUniversidad: number;
 
-  @Column("uuid", { name: "usuario_id", unique: true })
-  usuarioId: string;
+  @Column("integer", { name: "id_usuario", unique: true })
+  idUsuario: number;
 
   @Column("character varying", { name: "nombre_universidad", length: 255 })
   nombreUniversidad: string;
@@ -43,6 +46,6 @@ export class PerfilesUniversidad {
   @OneToOne(() => Usuarios, (usuarios) => usuarios.perfilesUniversidad, {
     onDelete: "CASCADE",
   })
-  @JoinColumn([{ name: "usuario_id", referencedColumnName: "id" }])
-  usuario: Usuarios;
+  @JoinColumn([{ name: "id_usuario", referencedColumnName: "idUsuario" }])
+  idUsuario2: Usuarios;
 }

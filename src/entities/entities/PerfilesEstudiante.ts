@@ -5,29 +5,20 @@ import {
   JoinColumn,
   OneToMany,
   OneToOne,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Aplicaciones } from "./Aplicaciones";
-import { Usuarios } from "../../users/entities/Usuarios";
+import { Usuarios } from "./Usuarios";
 
-@Index("perfiles_estudiante_pkey", ["id"], { unique: true })
-@Index("perfiles_estudiante_usuario_id_key", ["usuarioId"], { unique: true })
+@Index("perfiles_estudiante_pkey", ["idPerfilEstudiante"], { unique: true })
+@Index("perfiles_estudiante_id_usuario_key", ["idUsuario"], { unique: true })
 @Entity("perfiles_estudiante", { schema: "public" })
 export class PerfilesEstudiante {
-  @Column("uuid", {
-    primary: true,
-    name: "id",
-    default: () => "uuid_generate_v4()",
-  })
-  id: string;
+  @PrimaryGeneratedColumn({ type: "integer", name: "id_perfil_estudiante" })
+  idPerfilEstudiante: number;
 
-  @Column("uuid", { name: "usuario_id", unique: true })
-  usuarioId: string;
-
-  @Column("character varying", { name: "nombres", length: 100 })
-  nombres: string;
-
-  @Column("character varying", { name: "apellidos", length: 100 })
-  apellidos: string;
+  @Column("integer", { name: "id_usuario", unique: true })
+  idUsuario: number;
 
   @Column("character varying", {
     name: "universidad",
@@ -60,12 +51,15 @@ export class PerfilesEstudiante {
   })
   actualizadoEn: Date;
 
-  @OneToMany(() => Aplicaciones, (aplicaciones) => aplicaciones.estudiante)
+  @OneToMany(
+    () => Aplicaciones,
+    (aplicaciones) => aplicaciones.idPerfilEstudiante2
+  )
   aplicaciones: Aplicaciones[];
 
   @OneToOne(() => Usuarios, (usuarios) => usuarios.perfilesEstudiante, {
     onDelete: "CASCADE",
   })
-  @JoinColumn([{ name: "usuario_id", referencedColumnName: "id" }])
-  usuario: Usuarios;
+  @JoinColumn([{ name: "id_usuario", referencedColumnName: "idUsuario" }])
+  idUsuario2: Usuarios;
 }

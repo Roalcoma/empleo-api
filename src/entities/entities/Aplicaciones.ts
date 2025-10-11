@@ -1,27 +1,30 @@
-import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { PerfilesEstudiante } from "./PerfilesEstudiante";
+import {
+  Column,
+  Entity,
+  Index,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from "typeorm";
 import { OfertasLaborales } from "./OfertasLaborales";
+import { PerfilesEstudiante } from "./PerfilesEstudiante";
 
+@Index("aplicaciones_pkey", ["idAplicacion"], { unique: true })
 @Index(
-  "aplicaciones_estudiante_id_oferta_id_key",
-  ["estudianteId", "ofertaId"],
+  "aplicaciones_id_perfil_estudiante_id_oferta_laboral_key",
+  ["idOfertaLaboral", "idPerfilEstudiante"],
   { unique: true }
 )
-@Index("aplicaciones_pkey", ["id"], { unique: true })
 @Entity("aplicaciones", { schema: "public" })
 export class Aplicaciones {
-  @Column("uuid", {
-    primary: true,
-    name: "id",
-    default: () => "uuid_generate_v4()",
-  })
-  id: string;
+  @PrimaryGeneratedColumn({ type: "integer", name: "id_aplicacion" })
+  idAplicacion: number;
 
-  @Column("uuid", { name: "estudiante_id", unique: true })
-  estudianteId: string;
+  @Column("integer", { name: "id_perfil_estudiante", unique: true })
+  idPerfilEstudiante: number;
 
-  @Column("uuid", { name: "oferta_id", unique: true })
-  ofertaId: string;
+  @Column("integer", { name: "id_oferta_laboral", unique: true })
+  idOfertaLaboral: number;
 
   @Column("enum", {
     name: "estado",
@@ -49,18 +52,25 @@ export class Aplicaciones {
   actualizadoEn: Date;
 
   @ManyToOne(
-    () => PerfilesEstudiante,
-    (perfilesEstudiante) => perfilesEstudiante.aplicaciones,
-    { onDelete: "CASCADE" }
-  )
-  @JoinColumn([{ name: "estudiante_id", referencedColumnName: "id" }])
-  estudiante: PerfilesEstudiante;
-
-  @ManyToOne(
     () => OfertasLaborales,
     (ofertasLaborales) => ofertasLaborales.aplicaciones,
     { onDelete: "CASCADE" }
   )
-  @JoinColumn([{ name: "oferta_id", referencedColumnName: "id" }])
-  oferta: OfertasLaborales;
+  @JoinColumn([
+    { name: "id_oferta_laboral", referencedColumnName: "idOfertaLaboral" },
+  ])
+  idOfertaLaboral2: OfertasLaborales;
+
+  @ManyToOne(
+    () => PerfilesEstudiante,
+    (perfilesEstudiante) => perfilesEstudiante.aplicaciones,
+    { onDelete: "CASCADE" }
+  )
+  @JoinColumn([
+    {
+      name: "id_perfil_estudiante",
+      referencedColumnName: "idPerfilEstudiante",
+    },
+  ])
+  idPerfilEstudiante2: PerfilesEstudiante;
 }

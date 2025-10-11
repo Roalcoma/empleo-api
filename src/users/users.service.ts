@@ -22,7 +22,7 @@ export class UsersService {
     return this.usuarioRepository.find();
   }
 
-  async findOne(id: string): Promise<Usuarios | null> {
-    return this.usuarioRepository.findOneBy({ id });
+  async findOne(idUsuario: number): Promise<Usuarios | null> {
+    return this.usuarioRepository.findOneBy({ idUsuario });
   }
 }

@@ -5,19 +5,16 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { Aplicaciones } from "./Aplicaciones";
 import { PerfilesEmpresa } from "./PerfilesEmpresa";
 
-@Index("ofertas_laborales_pkey", ["id"], { unique: true })
+@Index("ofertas_laborales_pkey", ["idOfertaLaboral"], { unique: true })
 @Entity("ofertas_laborales", { schema: "public" })
 export class OfertasLaborales {
-  @Column("uuid", {
-    primary: true,
-    name: "id",
-    default: () => "uuid_generate_v4()",
-  })
-  id: string;
+  @PrimaryGeneratedColumn({ type: "integer", name: "id_oferta_laboral" })
+  idOfertaLaboral: number;
 
   @Column("character varying", { name: "titulo", length: 255 })
   titulo: string;
@@ -54,7 +51,10 @@ export class OfertasLaborales {
   })
   actualizadoEn: Date;
 
-  @OneToMany(() => Aplicaciones, (aplicaciones) => aplicaciones.oferta)
+  @OneToMany(
+    () => Aplicaciones,
+    (aplicaciones) => aplicaciones.idOfertaLaboral2
+  )
   aplicaciones: Aplicaciones[];
 
   @ManyToOne(
@@ -62,6 +62,8 @@ export class OfertasLaborales {
     (perfilesEmpresa) => perfilesEmpresa.ofertasLaborales,
     { onDelete: "CASCADE" }
   )
-  @JoinColumn([{ name: "empresa_id", referencedColumnName: "id" }])
-  empresa: PerfilesEmpresa;
+  @JoinColumn([
+    { name: "id_perfil_empresa", referencedColumnName: "idPerfilEmpresa" },
+  ])
+  idPerfilEmpresa: PerfilesEmpresa;
 }

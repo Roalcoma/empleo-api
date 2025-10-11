@@ -5,24 +5,21 @@ import {
   JoinColumn,
   OneToMany,
   OneToOne,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { OfertasLaborales } from "./OfertasLaborales";
-import { Usuarios } from "../../users/entities/Usuarios";
+import { Usuarios } from "./Usuarios";
 
-@Index("perfiles_empresa_pkey", ["id"], { unique: true })
+@Index("perfiles_empresa_pkey", ["idPerfilEmpresa"], { unique: true })
+@Index("perfiles_empresa_id_usuario_key", ["idUsuario"], { unique: true })
 @Index("perfiles_empresa_rif_key", ["rif"], { unique: true })
-@Index("perfiles_empresa_usuario_id_key", ["usuarioId"], { unique: true })
 @Entity("perfiles_empresa", { schema: "public" })
 export class PerfilesEmpresa {
-  @Column("uuid", {
-    primary: true,
-    name: "id",
-    default: () => "uuid_generate_v4()",
-  })
-  id: string;
+  @PrimaryGeneratedColumn({ type: "integer", name: "id_perfil_empresa" })
+  idPerfilEmpresa: number;
 
-  @Column("uuid", { name: "usuario_id", unique: true })
-  usuarioId: string;
+  @Column("integer", { name: "id_usuario", unique: true })
+  idUsuario: number;
 
   @Column("character varying", { name: "nombre_empresa", length: 255 })
   nombreEmpresa: string;
@@ -59,13 +56,13 @@ export class PerfilesEmpresa {
 
   @OneToMany(
     () => OfertasLaborales,
-    (ofertasLaborales) => ofertasLaborales.empresa
+    (ofertasLaborales) => ofertasLaborales.idPerfilEmpresa
   )
   ofertasLaborales: OfertasLaborales[];
 
   @OneToOne(() => Usuarios, (usuarios) => usuarios.perfilesEmpresa, {
     onDelete: "CASCADE",
   })
-  @JoinColumn([{ name: "usuario_id", referencedColumnName: "id" }])
-  usuario: Usuarios;
+  @JoinColumn([{ name: "id_usuario", referencedColumnName: "idUsuario" }])
+  idUsuario2: Usuarios;
 }
