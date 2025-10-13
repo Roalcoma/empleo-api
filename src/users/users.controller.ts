@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Patch, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
+import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 
 @Controller({
     path: 'usuarios',
@@ -43,5 +44,19 @@ export class UsersController {
             message: 'Usuario creado exitosamente',
             usuario: usuarioCreado
         }
+    }
+
+    @Patch(':id') // 👈 Define el método PATCH y captura un parámetro de ruta 'id'
+    async update(
+        @Param('id') id: number, // Extrae el 'id' de la URL y valida que sea un número
+        @Body() updateUsuarioDto: UpdateUsuarioDto,
+    ) {
+        const updatedUser = await this.usersService.update(id, updateUsuarioDto);
+
+        return {
+            success: true,
+            message: 'Usuario actualizado exitosamente',
+            usuario: updatedUser,
+        };
     }
 }
