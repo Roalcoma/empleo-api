@@ -31,6 +31,8 @@ export class UsersService {
   async create(CreateUsuarioDto: CreateUsuarioDto): Promise<any> {
     const { clave, email, nombreUsuario, ...datosLimpios } = CreateUsuarioDto;
 
+    console.log('Datos recibidos para crear usuario:', CreateUsuarioDto);
+
     const usuarioExistente = await this.usuarioRepository.findOne({
       where: [{ email }, { nombreUsuario }],
     });
@@ -45,6 +47,8 @@ export class UsersService {
     // 3. Crear la nueva instancia del usuario
     const nuevoUsuario = this.usuarioRepository.create({
       ...datosLimpios,
+      email,
+      nombreUsuario,
       claveHash: newHash
     });
 
@@ -52,6 +56,8 @@ export class UsersService {
     await this.usuarioRepository.save(nuevoUsuario);
 
     const { claveHash, ...usuarioSinClaveHash } = nuevoUsuario;
+
+    console.log('Usuario creado exitosamente:', usuarioSinClaveHash);
     return usuarioSinClaveHash;
   }
 }

@@ -11,18 +11,20 @@ export class UsersController {
 
 
     @Get()
-    findAll() {
+    async findAll() {
         return this.usersService.findAll();
     }
 
     @Get()
-    findOne(@Query('idUsuario') id: number) {
+    async findOne(@Query('idUsuario') id: number) {
         return this.usersService.findOne(id);
     }
 
     @Post('registro')
-    registro(@Body() CreateUsuarioDto: CreateUsuarioDto) {
-        const usuarioCreado = this.usersService.create(CreateUsuarioDto);
+    async registro(@Body() CreateUsuarioDto: CreateUsuarioDto) {
+        const usuarioCreado = await this.usersService.create(CreateUsuarioDto);
+
+        console.log('Controller:', usuarioCreado);
 
         return {
             success: true,
