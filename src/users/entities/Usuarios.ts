@@ -9,6 +9,9 @@ import { PerfilesEmpresa } from "../../entities/entities/PerfilesEmpresa"; // Ru
 import { PerfilesEstudiante } from "../../entities/entities/PerfilesEstudiante";
 import { PerfilesUniversidad } from "../../entities/entities/PerfilesUniversidad";
 
+
+export type RolUsuario = 'estudiante' | 'empresa' | 'universidad' | 'administrador';
+
 @Index("usuarios_pkey", ["idUsuario"], { unique: true })
 @Entity("usuarios", { schema: "public" })
 export class Usuarios { // Renombrada a singular por convención
