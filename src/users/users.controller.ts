@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 
@@ -12,15 +12,27 @@ export class UsersController {
 
     @Get()
     async findAll() {
-        return this.usersService.findAll();
+        const usuarios = await this.usersService.findAll();
+
+        return {
+            success: true,
+            message: 'Usuarios obtenidos exitosamente',
+            usuarios
+        }
     }
 
-    @Get()
-    async findOne(@Query('idUsuario') id: number) {
-        return this.usersService.findOne(id);
+    @Get(':id')
+    async findOne(@Param('idUsuario') id: number) {
+        const usuario = await this.usersService.findOne(id);
+
+        return {
+            success: true,
+            message: 'Usuario obtenido exitosamente',
+            usuario
+        }
     }
 
-    @Post('registro')
+    @Post()
     async registro(@Body() CreateUsuarioDto: CreateUsuarioDto) {
         const usuarioCreado = await this.usersService.create(CreateUsuarioDto);
 
