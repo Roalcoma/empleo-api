@@ -57,6 +57,21 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Routers
+```markdown
+### Available Routes
+
+Below are the routes currently implemented in the application:
+
+#### Users
+- **GET** `/users` - Retrieve a list of all users.
+- **GET** `/users/:id` - Retrieve details of a specific user by ID.
+- **POST** `/users` - Create a new user.
+- **PUT** `/users/:id` - Update an existing user by ID.
+- **DELETE** `/users/:id` - Delete a user by ID.
+```
+
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
