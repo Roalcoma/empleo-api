@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Aplicaciones } from "./Aplicaciones";
-import { Empresas } from "./Empresas";
+import { Empresas } from "../../empresas/entities/empresas.entity";
 import { Usuarios } from "./Usuarios";
 
 @Index("ofertas_laborales_pkey", ["idOfertaLaboral"], { unique: true })

@@ -5,8 +5,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { OfertasLaborales } from "./OfertasLaborales";
-import { UsuariosEmpresas } from "./UsuariosEmpresas";
+import { OfertasLaborales } from "../../entities/entities/OfertasLaborales";
+import { UsuariosEmpresas } from "../../entities/entities/UsuariosEmpresas";
 
 @Index("empresas_pkey", ["idEmpresa"], { unique: true })
 @Index("empresas_nombre_empresa_key", ["nombreEmpresa"], { unique: true })
