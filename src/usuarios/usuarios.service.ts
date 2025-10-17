@@ -63,25 +63,21 @@ export class UsersService {
       updateUsuarioDto.clave = await bcrypt.hash(updateUsuarioDto.clave, salt);
     }
 
-    // 2. Usamos 'preload' para encontrar el usuario y fusionar los nuevos datos.
-    // Es más eficiente que un findOne y luego un merge manual.
     const usuarioActualizado = await this.usuarioRepository.preload({
       idUsuario: id,
       ...updateUsuarioDto,
-      claveHash: updateUsuarioDto.clave, // Mapeamos 'clave' a 'claveHash' si existe
+      claveHash: updateUsuarioDto.clave, 
     });
 
-    // 3. Si preload no encuentra el usuario, devuelve undefined. Lanzamos un error.
     if (!usuarioActualizado) {
       throw new NotFoundException(`El usuario con el ID '${id}' no fue encontrado.`);
     }
 
-    // 4. Guardamos los cambios en la base de datos.
     try {
       await this.usuarioRepository.save(usuarioActualizado);
     } catch (error) {
-      // Manejamos el caso de que el email o nombre de usuario ya existan
-      if (error.code === '23505') { // Código de error de PostgreSQL para violación de unicidad
+    
+      if (error.code === '23505') { 
         throw new ConflictException('El email o nombre de usuario ya está en uso.');
       }
       throw error;

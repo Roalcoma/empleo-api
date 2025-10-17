@@ -6,9 +6,9 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { OfertasLaborales } from "./OfertasLaborales";
-import { Perfiles } from "./Perfiles";
-import { UsuariosEmpresas } from "./UsuariosEmpresas";
+import { OfertasLaborales } from "src/ofertas-laborales/entities/ofertasLaborales.entity";
+import { Perfiles } from "src/perfiles/entities/perfiles.entity";
+import { UsuariosEmpresas } from "./usuariosEmpresas.entity";
 
 @Index("usuarios_email_key", ["email"], { unique: true })
 @Index("usuarios_pkey", ["idUsuario"], { unique: true })
@@ -58,7 +58,7 @@ export class Usuarios {
   )
   ofertasLaborales: OfertasLaborales[];
 
-  @OneToOne(() => Perfiles, (perfiles) => perfiles.idUsuario2)
+  @OneToOne(() => Perfiles, (perfiles) => perfiles.usuario)
   perfiles: Perfiles;
 
   @OneToMany(

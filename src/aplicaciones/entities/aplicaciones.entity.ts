@@ -1,3 +1,5 @@
+// src/aplicaciones/entities/aplicacion.entity.ts
+
 import {
   Column,
   Entity,
@@ -6,13 +8,13 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { OfertasLaborales } from "./OfertasLaborales";
-import { Perfiles } from "./Perfiles";
+import { OfertasLaborales } from "src/ofertas-laborales/entities/ofertasLaborales.entity";
+import { Perfiles } from "src/perfiles/entities/perfiles.entity";
 
 @Index("aplicaciones_pkey", ["idAplicacion"], { unique: true })
 @Index(
-  "aplicaciones_id_perfil_id_oferta_laboral_key",
-  ["idOfertaLaboral", "idPerfil"],
+  "idx_aplicaciones_perfil_oferta_unique", // Renombrado para mayor claridad
+  ["perfil", "ofertaLaboral"], // ¡CORRECCIÓN! El índice de unicidad debe usar los nombres de las propiedades de la relación
   { unique: true }
 )
 @Entity("aplicaciones", { schema: "public" })
@@ -20,11 +22,8 @@ export class Aplicaciones {
   @PrimaryGeneratedColumn({ type: "integer", name: "id_aplicacion" })
   idAplicacion: number;
 
-  @Column("integer", { name: "id_perfil", unique: true })
-  idPerfil: number;
-
-  @Column("integer", { name: "id_oferta_laboral", unique: true })
-  idOfertaLaboral: number;
+  // @Column(...) <--- Se elimina la columna idPerfil redundante.
+  // @Column(...) <--- Se elimina la columna idOfertaLaboral redundante.
 
   @Column("enum", {
     name: "estado",
@@ -39,19 +38,19 @@ export class Aplicaciones {
   })
   fechaAplicacion: Date;
 
+  // --- RELACIÓN CON OFERTAS LABORALES (CORREGIDA) ---
   @ManyToOne(
     () => OfertasLaborales,
     (ofertasLaborales) => ofertasLaborales.aplicaciones,
-    { onDelete: "CASCADE" }
+    { onDelete: "CASCADE", nullable: false } // Es buena práctica añadir nullable: false
   )
-  @JoinColumn([
-    { name: "id_oferta_laboral", referencedColumnName: "idOfertaLaboral" },
-  ])
-  idOfertaLaboral2: OfertasLaborales;
+  @JoinColumn({ name: "id_oferta_laboral", referencedColumnName: "idOfertaLaboral" })
+  ofertaLaboral: OfertasLaborales; // Propiedad renombrada
 
+  // --- RELACIÓN CON PERFILES (CORREGIDA) ---
   @ManyToOne(() => Perfiles, (perfiles) => perfiles.aplicaciones, {
-    onDelete: "CASCADE",
+    onDelete: "CASCADE", nullable: false
   })
-  @JoinColumn([{ name: "id_perfil", referencedColumnName: "idPerfil" }])
-  idPerfil2: Perfiles;
+  @JoinColumn({ name: "id_perfil", referencedColumnName: "idPerfil" })
+  perfil: Perfiles; // Propiedad renombrada
 }

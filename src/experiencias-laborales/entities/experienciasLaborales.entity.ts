@@ -1,3 +1,5 @@
+// src/experiencias-laborales/entities/experiencias-laborales.entity.ts
+
 import {
   Column,
   Entity,
@@ -6,7 +8,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Perfiles } from "./Perfiles";
+import { Perfiles } from "src/perfiles/entities/perfiles.entity";
 
 @Index("experiencias_laborales_pkey", ["idExperienciaLaboral"], {
   unique: true,
@@ -31,9 +33,11 @@ export class ExperienciasLaborales {
   @Column("date", { name: "fecha_fin", nullable: true })
   fechaFin: string | null;
 
-  @ManyToOne(() => Perfiles, (perfiles) => perfiles.experienciasLaborales, {
+  // --- RELACIÓN CORREGIDA Y UNIFICADA ---
+  @ManyToOne(() => Perfiles, (perfil) => perfil.experienciasLaborales, {
     onDelete: "CASCADE",
+    nullable: false, // Una experiencia siempre debe pertenecer a un perfil
   })
-  @JoinColumn([{ name: "id_perfil", referencedColumnName: "idPerfil" }])
-  idPerfil: Perfiles;
+  @JoinColumn({ name: "id_perfil", referencedColumnName: "idPerfil" })
+  perfil: Perfiles; // Propiedad renombrada para mayor claridad e intuición
 }

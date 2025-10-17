@@ -7,9 +7,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Aplicaciones } from "./Aplicaciones";
+import { Aplicaciones } from "src/aplicaciones/entities/aplicaciones.entity";
 import { Empresas } from "../../empresas/entities/empresas.entity";
-import { Usuarios } from "./Usuarios";
+import { Usuarios } from "src/usuarios/entities/usuarios.entity";
 
 @Index("ofertas_laborales_pkey", ["idOfertaLaboral"], { unique: true })
 @Entity("ofertas_laborales", { schema: "public" })
@@ -42,7 +42,7 @@ export class OfertasLaborales {
 
   @OneToMany(
     () => Aplicaciones,
-    (aplicaciones) => aplicaciones.idOfertaLaboral2
+    (aplicaciones) => aplicaciones.ofertaLaboral
   )
   aplicaciones: Aplicaciones[];
 

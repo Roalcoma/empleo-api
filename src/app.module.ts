@@ -5,45 +5,44 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './usuarios/usuarios.module';
 import { PerfilesModule } from './perfiles/perfiles.module';
 import { AplicacionesModule } from './aplicaciones/aplicaciones.module';
 import { OfertasLaboralesModule } from './ofertas-laborales/ofertas-laborales.module';
 import { EmpresasModule } from './empresas/empresas.module';
-import { ExperienciasLaboralesModule } from './experiencias-laborales/experiencias-laborales.module';
 import { EducacionModule } from './educacion/educacion.module';
-import { PerfilesModule } from './perfiles/perfiles.module';
-import { OfertasLaboralesModule } from './ofertas-laborales/ofertas-laborales.module';
+import { ExperienciasLaboralesModule } from './experiencias-laborales/experiencias-laborales.module';
 
-// ¡CORRECCIÓN! Importa el archivo correcto
 import databaseConfig from './database/database.config'; 
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig], // Carga la configuración con la etiqueta 'database'
+      load: [databaseConfig],
     }),
     
     TypeOrmModule.forRootAsync({
-      // imports: [ConfigModule], // ¡ELIMINA ESTA LÍNEA! No es necesaria.
+      // imports: [ConfigModule], // ¡LÍNEA ELIMINADA!
       inject: [ConfigService],
+      // La fábrica ahora es más simple. Si 'database' no existe, NestJS lanzará un error claro.
       useFactory: (configService: ConfigService) => {
         const databaseConfig = configService.get('database');
         if (!databaseConfig) {
-          throw new Error('Database configuration is not defined');
+          throw new Error('Database configuration is missing');
         }
-        return databaseConfig; // Ahora sí encontrará la configuración
+        return databaseConfig;
       },
     }),
 
+    // Asegúrate de que TODOS tus módulos estén aquí
     UsersModule,
     PerfilesModule,
     AplicacionesModule,
     OfertasLaboralesModule,
     EmpresasModule,
-    ExperienciasLaboralesModule,
     EducacionModule,
+    ExperienciasLaboralesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

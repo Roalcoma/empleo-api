@@ -1,8 +1,6 @@
 // src/users/dto/create-usuario.dto.ts
 
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
-import type { RolUsuario } from '../entities/usuarios.entity';
-
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
 
 export class CreateUsuarioDto {
   @IsString({ message: 'El nombre de usuario debe ser un texto.' })
@@ -27,12 +25,6 @@ export class CreateUsuarioDto {
   apellido: string;
   
   @IsString()
-  @IsOptional() // Hacemos el teléfono opcional
+  @IsOptional() // El teléfono sigue siendo opcional
   telefono?: string;
-
-  @IsEnum(['estudiante', 'empresa', 'universidad'], { 
-    message: 'El rol no es válido. Debe ser estudiante, empresa o universidad.' 
-  })
-  @IsNotEmpty({ message: 'El rol no puede estar vacío.' })
-  rol: RolUsuario;
 }
