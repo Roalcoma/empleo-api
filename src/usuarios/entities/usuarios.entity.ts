@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { OfertasLaborales } from "src/ofertas-laborales/entities/ofertasLaborales.entity";
 import { Perfiles } from "src/perfiles/entities/perfiles.entity";
-import { UsuariosEmpresas } from "./usuariosEmpresas.entity";
+import { UsuariosEmpresas } from "src/usuarios-empresas/entities/usuariosEmpresas.entity";
 
 @Index("usuarios_email_key", ["email"], { unique: true })
 @Index("usuarios_pkey", ["idUsuario"], { unique: true })

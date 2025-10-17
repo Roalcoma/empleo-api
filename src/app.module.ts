@@ -12,6 +12,7 @@ import { OfertasLaboralesModule } from './ofertas-laborales/ofertas-laborales.mo
 import { EmpresasModule } from './empresas/empresas.module';
 import { EducacionModule } from './educacion/educacion.module';
 import { ExperienciasLaboralesModule } from './experiencias-laborales/experiencias-laborales.module';
+import { UsuariosEmpresasModule } from './usuarios-empresas/usuarios-empresas.module';
 
 import databaseConfig from './database/database.config'; 
 
@@ -43,6 +44,7 @@ import databaseConfig from './database/database.config';
     EmpresasModule,
     EducacionModule,
     ExperienciasLaboralesModule,
+    UsuariosEmpresasModule,
   ],
   controllers: [AppController],
   providers: [AppService],

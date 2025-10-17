@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { OfertasLaborales } from "../../ofertas-laborales/entities/ofertasLaborales.entity";
-import { UsuariosEmpresas } from "../../usuarios/entities/usuariosEmpresas.entity";
+import { UsuariosEmpresas } from "../../usuarios-empresas/entities/usuariosEmpresas.entity";
 
 @Index("empresas_pkey", ["idEmpresa"], { unique: true })
 @Index("empresas_nombre_empresa_key", ["nombreEmpresa"], { unique: true })
