@@ -1,7 +1,7 @@
 // src/users/dto/create-usuario.dto.ts
 
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, MinLength } from 'class-validator';
-import type { RolUsuario } from '../entities/Usuarios';
+import type { RolUsuario } from '../entities/usuarios.entity';
 
 
 export class CreateUsuarioDto {

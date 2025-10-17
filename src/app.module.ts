@@ -9,6 +9,11 @@ import { UsersModule } from './users/users.module';
 import { PerfilesModule } from './perfiles/perfiles.module';
 import { AplicacionesModule } from './aplicaciones/aplicaciones.module';
 import { OfertasLaboralesModule } from './ofertas-laborales/ofertas-laborales.module';
+import { EmpresasModule } from './empresas/empresas.module';
+import { ExperienciasLaboralesModule } from './experiencias-laborales/experiencias-laborales.module';
+import { EducacionModule } from './educacion/educacion.module';
+import { PerfilesModule } from './perfiles/perfiles.module';
+import { OfertasLaboralesModule } from './ofertas-laborales/ofertas-laborales.module';
 
 // ¡CORRECCIÓN! Importa el archivo correcto
 import databaseConfig from './database/database.config'; 
@@ -36,6 +41,9 @@ import databaseConfig from './database/database.config';
     PerfilesModule,
     AplicacionesModule,
     OfertasLaboralesModule,
+    EmpresasModule,
+    ExperienciasLaboralesModule,
+    EducacionModule,
   ],
   controllers: [AppController],
   providers: [AppService],

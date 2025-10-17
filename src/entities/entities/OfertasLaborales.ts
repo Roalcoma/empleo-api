@@ -8,7 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 import { Aplicaciones } from "./Aplicaciones";
-import { PerfilesEmpresa } from "./PerfilesEmpresa";
+import { Empresas } from "./Empresas";
+import { Usuarios } from "./Usuarios";
 
 @Index("ofertas_laborales_pkey", ["idOfertaLaboral"], { unique: true })
 @Entity("ofertas_laborales", { schema: "public" })
@@ -22,8 +23,8 @@ export class OfertasLaborales {
   @Column("text", { name: "descripcion" })
   descripcion: string;
 
-  @Column("enum", { name: "tipo", enum: ["pasantia", "empleo"] })
-  tipo: "pasantia" | "empleo";
+  @Column("enum", { name: "tipo", enum: ["pasantia", "empleo", "freelance"] })
+  tipo: "pasantia" | "empleo" | "freelance";
 
   @Column("character varying", {
     name: "ubicacion",
@@ -39,31 +40,21 @@ export class OfertasLaborales {
   })
   estado: "abierta" | "cerrada";
 
-  @Column("timestamp with time zone", {
-    name: "creado_en",
-    default: () => "now()",
-  })
-  creadoEn: Date;
-
-  @Column("timestamp with time zone", {
-    name: "actualizado_en",
-    default: () => "now()",
-  })
-  actualizadoEn: Date;
-
   @OneToMany(
     () => Aplicaciones,
     (aplicaciones) => aplicaciones.idOfertaLaboral2
   )
   aplicaciones: Aplicaciones[];
 
-  @ManyToOne(
-    () => PerfilesEmpresa,
-    (perfilesEmpresa) => perfilesEmpresa.ofertasLaborales,
-    { onDelete: "CASCADE" }
-  )
+  @ManyToOne(() => Empresas, (empresas) => empresas.ofertasLaborales, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn([{ name: "id_empresa", referencedColumnName: "idEmpresa" }])
+  idEmpresa: Empresas;
+
+  @ManyToOne(() => Usuarios, (usuarios) => usuarios.ofertasLaborales)
   @JoinColumn([
-    { name: "id_perfil_empresa", referencedColumnName: "idPerfilEmpresa" },
+    { name: "id_usuario_publicador", referencedColumnName: "idUsuario" },
   ])
-  idPerfilEmpresa: PerfilesEmpresa;
+  idUsuarioPublicador: Usuarios;
 }
