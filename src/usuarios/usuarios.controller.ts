@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Patch, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Patch, Query, ParseIntPipe } from '@nestjs/common';
 import { UsersService } from './usuarios.service';
 import { CreateUsuarioDto } from './dto/create-usuario.dto';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
@@ -22,13 +22,22 @@ export class UsersController {
     }
 
     @Get(':id')
-    async findOne(@Param('idUsuario') id: number) {
+    async findOne(@Param('id', ParseIntPipe) id: number) {
+        console.log('ID recibido en el controlador:', id);
+
         const usuario = await this.usersService.findOne(id);
+
+        if (!usuario) {
+            return {
+                success: false,
+                message: 'Usuario no encontrado',
+            }
+        }
 
         return {
             success: true,
             message: 'Usuario obtenido exitosamente',
-            usuario
+            usuario: usuario
         }
     }
 

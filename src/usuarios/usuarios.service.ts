@@ -20,6 +20,8 @@ export class UsersService {
   }
 
   async findOne(idUsuario: number): Promise<Usuarios | null> {
+    console.log('Buscando usuario con ID:', idUsuario);
+
     return this.usuarioRepository.findOneBy({ idUsuario });
   }
 
