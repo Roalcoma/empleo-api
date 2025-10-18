@@ -88,4 +88,12 @@ export class UsersService {
     const { claveHash, ...usuarioSinClaveHash } = usuarioActualizado;
     return usuarioSinClaveHash;
   }
+
+  async findByUsernameOrEmail(username: string): Promise<Usuarios | null> {
+    const usuario = await this.usuarioRepository.findOne({
+      where: [{email: username}, {nombreUsuario: username}]
+    })
+
+    return usuario;
+  }
 }
