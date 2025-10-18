@@ -9,6 +9,7 @@ import { UsersService } from './usuarios.service';
     TypeOrmModule.forFeature([Usuarios]) // ¡CRÍTICO! Esto le da al módulo acceso al Repositorio de Usuario.
   ],
   controllers: [UsersController],
-  providers: [UsersService]
+  providers: [UsersService],
+  exports: [UsersService], // Exporta UsersService para que otros módulos puedan usarlo
 })
 export class UsersModule {}
