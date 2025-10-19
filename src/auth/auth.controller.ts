@@ -19,9 +19,11 @@ export class AuthController {
         return resultado;
     }
 
-    @Get('Perfil')
-    @UseGuards(AuthGuard())
+    @Get('perfil')
+    @UseGuards(AuthGuard('jwt'))
     obtenerPerfil(@Req() req: any) {
+        console.log(req);
+
         return {
             success: true,
             message: 'Perfil obtenido exitosamente',
