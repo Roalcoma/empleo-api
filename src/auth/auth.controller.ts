@@ -22,7 +22,6 @@ export class AuthController {
     @Get('perfil')
     @UseGuards(AuthGuard('jwt'))
     obtenerPerfil(@Req() req: any) {
-        console.log(req);
 
         return {
             success: true,
