@@ -1,5 +1,6 @@
-import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, HttpStatus, UseGuards, Req, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller({
     path: 'auth',
@@ -16,5 +17,15 @@ export class AuthController {
         const resultado = await this.authService.login(loginDto);
 
         return resultado;
+    }
+
+    @Get('Perfil')
+    @UseGuards(AuthGuard())
+    obtenerPerfil(@Req() req: any) {
+        return {
+            success: true,
+            message: 'Perfil obtenido exitosamente',
+            usuario: req.user
+        }
     }
 }
