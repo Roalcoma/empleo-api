@@ -14,10 +14,10 @@ import { EducacionModule } from './educacion/educacion.module';
 import { ExperienciasLaboralesModule } from './experiencias-laborales/experiencias-laborales.module';
 import { UsuariosEmpresasModule } from './usuarios-empresas/usuarios-empresas.module';
 import { AuthModule } from './auth/auth.module';
-import { ExperienciasLaboralesService } from './experiencias-laborales.service';
-import { ExperienciasLaboralesController } from './experiencias-laborales.controller';
-import { EducacionService } from './educacion.service';
-import { EducacionController } from './educacion.controller';
+import { ExperienciasLaboralesService } from './experiencias-laborales/experiencias-laborales.service';
+import { ExperienciasLaboralesController } from './experiencias-laborales/experiencias-laborales.controller';
+import { EducacionService } from './educacion/educacion.service';
+import { EducacionController } from './educacion/educacion.controller';
 
 import databaseConfig from './database/database.config'; 
 
