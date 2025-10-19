@@ -14,6 +14,10 @@ import { EducacionModule } from './educacion/educacion.module';
 import { ExperienciasLaboralesModule } from './experiencias-laborales/experiencias-laborales.module';
 import { UsuariosEmpresasModule } from './usuarios-empresas/usuarios-empresas.module';
 import { AuthModule } from './auth/auth.module';
+import { ExperienciasLaboralesService } from './experiencias-laborales.service';
+import { ExperienciasLaboralesController } from './experiencias-laborales.controller';
+import { EducacionService } from './educacion.service';
+import { EducacionController } from './educacion.controller';
 
 import databaseConfig from './database/database.config'; 
 
@@ -48,7 +52,7 @@ import databaseConfig from './database/database.config';
     UsuariosEmpresasModule,
     AuthModule
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, ExperienciasLaboralesController, EducacionController],
+  providers: [AppService, ExperienciasLaboralesService, EducacionService],
 })
 export class AppModule {}
