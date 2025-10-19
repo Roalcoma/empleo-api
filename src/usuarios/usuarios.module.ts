@@ -6,10 +6,10 @@ import { UsersService } from './usuarios.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Usuarios]) // ¡CRÍTICO! Esto le da al módulo acceso al Repositorio de Usuario.
+    TypeOrmModule.forFeature([Usuarios]) 
   ],
   controllers: [UsersController],
   providers: [UsersService],
-  exports: [UsersService], // Exporta UsersService para que otros módulos puedan usarlo
+  exports: [UsersService], 
 })
 export class UsersModule {}
